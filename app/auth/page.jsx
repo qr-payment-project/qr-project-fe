@@ -15,10 +15,10 @@ export default function AuthPage() {
       // 회원가입 요청
       // 회원가입 요청 부분
     const res = await api.post('/api/auth/register', {
-      username: form.email, // 백엔드에서 username 필드 사용
-      password: form.password,
-      name: form.name
-    });
+  email: form.email, // username → email
+  password: form.password,
+  name: form.name
+});
 
 
       if (res.ok) {
@@ -32,9 +32,9 @@ export default function AuthPage() {
     else {
       // 로그인 요청
       const res = await api.post('/api/auth/login', {
-        username: form.email,
-        password: form.password
-      });
+  email: form.email, // username → email
+  password: form.password
+});
 
 
       if (res.ok) {
