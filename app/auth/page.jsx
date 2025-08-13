@@ -4,7 +4,7 @@ import { api } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 
 export default function AuthPage() {
-  const [mode, setMode] = useState('login'); // login or register
+  const [mode, setMode] = useState('login'); 
   const [form, setForm] = useState({ email: '', password: '', name: '' });
   const router = useRouter();
 
@@ -12,23 +12,37 @@ export default function AuthPage() {
     e.preventDefault();
 
     if (mode === 'register') {
-      const res = await api.post('/api/auth/register', form);
+      // 회원가입 요청
+      // 회원가입 요청 부분
+    const res = await api.post('/api/auth/register', {
+      username: form.email, // 백엔드에서 username 필드 사용
+      password: form.password,
+      name: form.name
+    });
+
+
       if (res.ok) {
         alert('회원가입 성공! 로그인해주세요.');
         setMode('login');
       } else {
-        alert(await res.text());
+        const err = await res.text();
+        alert(err || '회원가입 실패');
       }
-    } else {
+    } 
+    else {
+      // 로그인 요청
       const res = await api.post('/api/auth/login', {
-        email: form.email,
-        password: form.password,
+        username: form.email,
+        password: form.password
       });
+
+
       if (res.ok) {
         alert('로그인 성공');
-        router.push('/');
+        router.push('/'); // 로그인 후 메인 페이지로 이동
       } else {
-        alert(await res.text());
+        const err = await res.text();
+        alert(err || '로그인 실패');
       }
     }
   };
@@ -41,6 +55,7 @@ export default function AuthPage() {
           placeholder="이메일"
           value={form.email}
           onChange={(e) => setForm({ ...form, email: e.target.value })}
+          required
         />
         <br />
         <input
@@ -48,6 +63,7 @@ export default function AuthPage() {
           type="password"
           value={form.password}
           onChange={(e) => setForm({ ...form, password: e.target.value })}
+          required
         />
         <br />
         {mode === 'register' && (
@@ -56,6 +72,7 @@ export default function AuthPage() {
               placeholder="이름"
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
+              required
             />
             <br />
           </>
