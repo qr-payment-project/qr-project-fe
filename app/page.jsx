@@ -13,11 +13,11 @@ export default function Home() {
   useEffect(() => {
     // 페이지 로드 시 /api/auth/me 호출
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`, {
-      credentials: 'include' // 세션 쿠키 사용 시 필요
+      credentials: 'include', // 세션 쿠키 사용 시 필요
     })
-      .then(res => res.json())
-      .then(data => console.log('백엔드 응답:', data))
-      .catch(err => console.error('API 요청 오류:', err));
+      .then((res) => res.json())
+      .then((data) => console.log('백엔드 응답:', data))
+      .catch((err) => console.error('API 요청 오류:', err));
   }, []);
 
   if (loading) return <div style={{ padding: 16 }}>로딩 중...</div>;
